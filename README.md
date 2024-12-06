@@ -2,30 +2,32 @@
 <h1>Гушшамов Кирилл spotify</h1>
 
 ```
-import numpy as np <br>
-import pandas as pd<br>
-import matplotlib.pyplot as plt<br>
+import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt
 
+
+import os
+
+df = pd.read_csv('/content/dataset.csv')
+df.head()
 ```
-import os<br>
-
-df = pd.read_csv('/content/dataset.csv')<br>
-df.head()<br>
 ![image](https://github.com/user-attachments/assets/9bafe9a3-dcd9-4d05-9e18-9baf33e97a0c)
 
 
-<h2><b>Удаляю track id так как он не особо нужен</b></h2><br>
-
-del df["track_id"]<br>
-df.head()<br>
+<h2><b>Удаляю track id так как он не особо нужен</b></h2>
+```
+del df["track_id"]
+df.head()
+```
 ![image](https://github.com/user-attachments/assets/b93002e0-4cfc-4fff-b772-b436f30286da)
 
 
-<h2><b>Графики:</b></h2><br>
+<h2><b>Графики:</b></h2>
 
-Понять, как распределена популярность треков в нашем наборе данных. <br>
-Это поможет нам увидеть, есть ли треки с высокой популярностью и как они соотносятся с менее популярными.<br>
-
+Понять, как распределена популярность треков в нашем наборе данных. 
+Это поможет нам увидеть, есть ли треки с высокой популярностью и как они соотносятся с менее популярными.
+```
 import seaborn as sns<br>
 plt.figure(figsize=(10, 6))<br>
 sns.histplot(df['popularity'], bins=30, kde=True)<br>
@@ -34,32 +36,32 @@ plt.xlabel('Популярность')<br>
 plt.ylabel('Частота')<br>
 plt.grid(True)<br>
 plt.show()<br>
-
+```
 ![image](https://github.com/user-attachments/assets/b3e7e71f-08fd-4095-a170-ff6e1f267f9a)
 
-Нужно выяснить, какие признаки имеют сильную корреляцию с целевой переменной (популярностью)<br>
+Нужно выяснить, какие признаки имеют сильную корреляцию с целевой переменной (популярностью)
 ![image](https://github.com/user-attachments/assets/66398478-ca77-4379-9e45-4a33cdcbe73c)
 
-
-numerical_data = df.select_dtypes(include=['float64', 'int64'])<br>
-correlation_matrix = numerical_data.corr()<br>
-correlation_matrix.corr()['popularity'].sort_values(ascending=False)<br>
-
+```
+numerical_data = df.select_dtypes(include=['float64', 'int64'])
+correlation_matrix = numerical_data.corr()
+correlation_matrix.corr()['popularity'].sort_values(ascending=False)
+```
 ![image](https://github.com/user-attachments/assets/d8ab1657-feae-40e8-bcfc-77cfb53b3fc1)
 
 <h2>Feature Engineering. Корреляция новых колонок с таргетом. Feature Importances. Простая модель.</h2>
 Смотрим как жанр влияает на популярность
 
-genre_popularity = df.groupby('track_genre')['popularity'].mean().sort_values(ascending=False)<br>
+genre_popularity = df.groupby('track_genre')['popularity'].mean().sort_values(ascending=False)
 
-# Строим график<br>
-plt.figure(figsize=(12, 6))<br>
-sns.barplot(x=genre_popularity.index, y=genre_popularity.values, palette='viridis')<br>
-plt.title('Средняя популярность по жанрам')<br>
-plt.xlabel('Жанр')<br>
-plt.ylabel('Средняя популярность')<br>
-plt.xticks(rotation=45)<br>
-plt.show()<br>
+# Строим график
+plt.figure(figsize=(12, 6))
+sns.barplot(x=genre_popularity.index, y=genre_popularity.values, palette='viridis')
+plt.title('Средняя популярность по жанрам')
+plt.xlabel('Жанр')
+plt.ylabel('Средняя популярность')
+plt.xticks(rotation=45)
+plt.show()
 
 ![image](https://github.com/user-attachments/assets/0156edd8-b65c-476f-be5d-4a4f2cf14aee)
 
