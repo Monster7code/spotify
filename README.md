@@ -1,28 +1,28 @@
 <h1>Гушшамов Кирилл spotify</h1>
 
 
-import numpy as np 
-import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np <br>
+import pandas as pd<br>
+import matplotlib.pyplot as plt<br>
 
 
-import os
+import os<br>
 
-df = pd.read_csv('/content/dataset.csv')
-df.head()
+df = pd.read_csv('/content/dataset.csv')<br>
+df.head()<br>
 ![image](https://github.com/user-attachments/assets/9bafe9a3-dcd9-4d05-9e18-9baf33e97a0c)
 
 
-<h2><b>Удаляю track id так как он не особо нужен</b></h2>
+<h2><b>Удаляю track id так как он не особо нужен</b></h2><br>
 
-del df["track_id"]
-df.head()
+del df["track_id"]<br>
+df.head()<br>
 ![image](https://github.com/user-attachments/assets/b93002e0-4cfc-4fff-b772-b436f30286da)
 
 
 <h2><b>Графики:</b></h2>
 
-Понять, как распределена популярность треков в нашем наборе данных. 
+Понять, как распределена популярность треков в нашем наборе данных. <br>
 Это поможет нам увидеть, есть ли треки с высокой популярностью и как они соотносятся с менее популярными.
 
 import seaborn as sns
