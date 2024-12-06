@@ -13,7 +13,7 @@ df.head()
 ![image](https://github.com/user-attachments/assets/9bafe9a3-dcd9-4d05-9e18-9baf33e97a0c)
 
 
-<h2><b>Удаляю track id так как он ну особо нужен</b></h2>
+<h2><b>Удаляю track id так как он не особо нужен</b></h2>
 
 del df["track_id"]
 df.head()
