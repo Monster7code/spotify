@@ -20,112 +20,112 @@ df.head()<br>
 ![image](https://github.com/user-attachments/assets/b93002e0-4cfc-4fff-b772-b436f30286da)
 
 
-<h2><b>Графики:</b></h2>
+<h2><b>Графики:</b></h2><br>
 
 Понять, как распределена популярность треков в нашем наборе данных. <br>
-Это поможет нам увидеть, есть ли треки с высокой популярностью и как они соотносятся с менее популярными.
+Это поможет нам увидеть, есть ли треки с высокой популярностью и как они соотносятся с менее популярными.<br>
 
-import seaborn as sns
-plt.figure(figsize=(10, 6))
-sns.histplot(df['popularity'], bins=30, kde=True)
-plt.title('Распределение популярности треков')
-plt.xlabel('Популярность')
-plt.ylabel('Частота')
-plt.grid(True)
-plt.show()
+import seaborn as sns<br>
+plt.figure(figsize=(10, 6))<br>
+sns.histplot(df['popularity'], bins=30, kde=True)<br>
+plt.title('Распределение популярности треков')<br>
+plt.xlabel('Популярность')<br>
+plt.ylabel('Частота')<br>
+plt.grid(True)<br>
+plt.show()<br>
 
 ![image](https://github.com/user-attachments/assets/b3e7e71f-08fd-4095-a170-ff6e1f267f9a)
 
-Нужно выяснить, какие признаки имеют сильную корреляцию с целевой переменной (популярностью)
+Нужно выяснить, какие признаки имеют сильную корреляцию с целевой переменной (популярностью)<br>
 ![image](https://github.com/user-attachments/assets/66398478-ca77-4379-9e45-4a33cdcbe73c)
 
 
-numerical_data = df.select_dtypes(include=['float64', 'int64'])
-correlation_matrix = numerical_data.corr()
-correlation_matrix.corr()['popularity'].sort_values(ascending=False)
+numerical_data = df.select_dtypes(include=['float64', 'int64'])<br>
+correlation_matrix = numerical_data.corr()<br>
+correlation_matrix.corr()['popularity'].sort_values(ascending=False)<br>
 
 ![image](https://github.com/user-attachments/assets/d8ab1657-feae-40e8-bcfc-77cfb53b3fc1)
 
 <h2>Feature Engineering. Корреляция новых колонок с таргетом. Feature Importances. Простая модель.</h2>
 Смотрим как жанр влияает на популярность
 
-genre_popularity = df.groupby('track_genre')['popularity'].mean().sort_values(ascending=False)
+genre_popularity = df.groupby('track_genre')['popularity'].mean().sort_values(ascending=False)<br>
 
-# Строим график
-plt.figure(figsize=(12, 6))
-sns.barplot(x=genre_popularity.index, y=genre_popularity.values, palette='viridis')
-plt.title('Средняя популярность по жанрам')
-plt.xlabel('Жанр')
-plt.ylabel('Средняя популярность')
-plt.xticks(rotation=45)
-plt.show()
+# Строим график<br>
+plt.figure(figsize=(12, 6))<br>
+sns.barplot(x=genre_popularity.index, y=genre_popularity.values, palette='viridis')<br>
+plt.title('Средняя популярность по жанрам')<br>
+plt.xlabel('Жанр')<br>
+plt.ylabel('Средняя популярность')<br>
+plt.xticks(rotation=45)<br>
+plt.show()<br>
 
 ![image](https://github.com/user-attachments/assets/0156edd8-b65c-476f-be5d-4a4f2cf14aee)
 
 
 
-Заменяю признак на категориальный
+Заменяю признак на категориальный<br>
 
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder<br>
 
 
-label_encoder = LabelEncoder()
-df['track_genre_encoded'] = label_encoder.fit_transform(df['track_genre'])
+label_encoder = LabelEncoder()<br>
+df['track_genre_encoded'] = label_encoder.fit_transform(df['track_genre'])<br>
 
-# Проверим результат
-print(df[['track_genre', 'track_genre_encoded']])
+# Проверим результат<br>
+print(df[['track_genre', 'track_genre_encoded']])<br>
 
 ![image](https://github.com/user-attachments/assets/aba907be-21a6-460f-85fb-00f641f8bd51)
 
-Дополнительно проверю весь датасет
+Дополнительно проверю весь датасет<br>
 
 ![image](https://github.com/user-attachments/assets/ffd6f07f-997c-424b-a3a8-aea9fec2e585)
 
-Удаляю лишний столбец
+Удаляю лишний столбец<br>
 
-del df["track_genre"]
-# again check
-df
+del df["track_genre"]<br>
+# again check<br>
+df<br>
 
 ![image](https://github.com/user-attachments/assets/f9990569-08b5-434f-ba33-d44602ef1c0c)
 
-Предполагаю, что при поиске определенные названия будут попадаться чаще 
-<b>upd:</b> совсем забыл что есть nan значения) получал очень долго ошиюку не мог понять
+Предполагаю, что при поиске определенные названия будут попадаться чаще <br>
+<b>upd:</b> совсем забыл что есть nan значения) получал очень долго ошиюку не мог понять<br>
 
-df.isnull().sum()
+df.isnull().sum()<br>
 
 ![image](https://github.com/user-attachments/assets/9b66ff8b-a412-40e6-be12-993fd5ad384f)
 
-df = df.dropna()
-df.isnull().sum()
+df = df.dropna()<br>
+df.isnull().sum()<br>
 
 ![image](https://github.com/user-attachments/assets/0aab0ddb-4425-42b2-8700-953d5a3c0ae9)
 
-Возвращаюсь к теории
-keywords = ['love', 'night', 'dance', 'party', 'dream',
-            "comedy", "fun", "funny","sad","melancholy","sorrow","lonely",
-            "mournful","heartbroken","despair","regret","nostalgia","wistful",
-            "forlorn","dismal","doleful","grief","pensive", "hold", "destiny"]
+Возвращаюсь к теории<br>
+keywords = ['love', 'night', 'dance', 'party', 'dream',<br>
+            "comedy", "fun", "funny","sad","melancholy","sorrow","lonely",<br>
+            "mournful","heartbroken","despair","regret","nostalgia","wistful",<br>
+            "forlorn","dismal","doleful","grief","pensive", "hold", "destiny"]<br>
 
-# Функция для подсчета веса на основе совпадений
-def calculate_weight(track_name):
-    weight = 0
-    for word in keywords:
-        if word in track_name.lower():  # Приводим к нижнему регистру для точного сравнения
-            weight += 1  # Увеличиваем вес за каждое совпадение
-    return weight
+# Функция для подсчета веса на основе совпадений<br>
+def calculate_weight(track_name):<br>
+    weight = 0<br>
+    for word in keywords:<br>
+        if word in track_name.lower():  # Приводим к нижнему регистру для точного сравнения<br>
+            weight += 1  # Увеличиваем вес за каждое совпадение<br>
+    return weight<br>
 
-# Применяем функцию к столбцу track_name
-df['track_weight'] = df['track_name'].apply(calculate_weight)
+# Применяем функцию к столбцу track_name<br>
+df['track_weight'] = df['track_name'].apply(calculate_weight)<br>
 
-# Проверим результат
-df[['track_name', 'track_weight']].head()
+# Проверим результат<br>
+df[['track_name', 'track_weight']].head()<br>
 
 ![image](https://github.com/user-attachments/assets/9b251369-8d17-45e7-b6e9-67edebce5d2a)
 
-Теперь нужно удалить лишнее
+Теперь нужно удалить лишнее<br>
 
-del df["track_name"]
+del df["track_name"]<br>
 
 Теперь тоже самое хочу сделать и с названием альбома
 
