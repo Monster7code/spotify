@@ -1,11 +1,12 @@
+
 <h1>Гушшамов Кирилл spotify</h1>
 
-
+```
 import numpy as np <br>
 import pandas as pd<br>
 import matplotlib.pyplot as plt<br>
 
-
+```
 import os<br>
 
 df = pd.read_csv('/content/dataset.csv')<br>
